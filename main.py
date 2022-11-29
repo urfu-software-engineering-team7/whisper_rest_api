@@ -1,14 +1,18 @@
-from fastapi import FastAPI
+import whisper
+import requests as rq
+
+from fastapi import FastAPI, File
 
 app = FastAPI()
 
 
-@app.get("/")
-def read_root():
-    return "Hello World"
+@app.get("/translate/")
+async def create_file(url: str = None):
+    model = whisper.load_model("base")
 
+    doc = rq.get(url)
+    with open('voice.mp3', 'wb') as f:
+        f.write(doc.content)
+        result = model.transcribe("voice.mp3", fp16=False, language='ru')
 
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q):
-    return {"item_id": item_id, "q": q}
-
+    return {"result": result["text"]}
