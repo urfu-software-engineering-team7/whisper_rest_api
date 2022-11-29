@@ -4,9 +4,11 @@ pip install git+https://github.com/openai/whisper.git
 
 Для Windows:
 Установка Скоп через PowerShell: (попросить проверить через cmd)
+
 iwr -useb get.scoop.sh | iex
 
 Установка ffmpeg 
+
 scoop install ffmpeg
 
 Для Linux:
