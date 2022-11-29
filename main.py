@@ -1,7 +1,7 @@
 import whisper
 import requests as rq
 
-from fastapi import FastAPI, File
+from fastapi import FastAPI
 
 app = FastAPI()
 
