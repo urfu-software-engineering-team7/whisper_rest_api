@@ -1,12 +1,12 @@
 import whisper
 import requests as rq
-
 from fastapi import FastAPI
 
 app = FastAPI()
 
 
-def transcribe_to_text(model, file):
+def transcribe_to_text(file):
+    model = whisper.load_model("base")
     result = model.transcribe(file.name, fp16=False, language='ru')
     return result["text"]
 
