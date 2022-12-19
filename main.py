@@ -6,6 +6,11 @@ from fastapi import FastAPI
 app = FastAPI()
 
 
+def transcribe_to_text(model, file):
+    result = model.transcribe(file.name, fp16=False, language='ru')
+    return result["text"]
+
+
 @app.get("/translate/")
 async def create_file(url: str = None):
     model = whisper.load_model("base")
@@ -13,6 +18,6 @@ async def create_file(url: str = None):
     doc = rq.get(url)
     with open('voice.mp3', 'wb') as f:
         f.write(doc.content)
-        result = model.transcribe("voice.mp3", fp16=False, language='ru')
+        transcribe_result = transcribe_to_text(model, f)
 
-    return {"result": result["text"]}
+    return {"result": transcribe_result}
