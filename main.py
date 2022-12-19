@@ -5,8 +5,7 @@ from fastapi import FastAPI
 app = FastAPI()
 
 
-def transcribe_to_text(file):
-    model = whisper.load_model("base")
+def transcribe_to_text(model, file):
     result = model.transcribe(file.name, fp16=False, language='ru')
     return result["text"]
 
