@@ -32,9 +32,6 @@ jobs:
       run: |
         sudo apt update && sudo apt install ffmpeg
         pip install git+https://github.com/openai/whisper.git
-    - name: Install for linux whisper
-      run: |
-        sudo apt-get install -y python-whisper
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
