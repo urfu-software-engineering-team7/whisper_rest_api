@@ -22,3 +22,6 @@ class TestTranscribeToText:
             res = transcribe_to_text(model, f)
 
         assert res == " Камесыт не будешь, Мать-дество говорил о мне, хотя нарисовой бумаги вполне."
+        
+    def test_error(self):
+        assert 1 == 2, "Test error print"
