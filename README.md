@@ -1,6 +1,7 @@
 
 # Audio -> url -> API -> Whisper -> text -> Response 
 [![Python](https://img.shields.io/badge/python-3.6%20%7C%203.7%20%7C%203.8%20%7C%203.9-blue)](https://www.python.org)
+![Workflow](https://github.com/recycletechno/voice_to_text_urfu_project/actions/workflows/python-tests.yml/badge.svg)
 
 Данное приложение получает на вход API "прямую" ссылку на mp3 аудио файл, в ответ с дилем приложение отправляет текст-расшифровку, что было сказано в этом аудио.
 
