@@ -47,6 +47,11 @@ pip install git+https://github.com/openai/whisper.git
 pip install --upgrade --no-deps --force-reinstall git+https://github.com/openai/whisper.git
 ``` 
 
+### Установка Linux пакетов для хостинга
+```
+sudo apt install python3-pip, uvicorn, ffmpeg -y
+```
+
 Библиотека whisper может анализировать множество языков, но в реализации был выбран русский язык для лучшего результата.  
 В качестве модели была выбрана модель "base".
 
