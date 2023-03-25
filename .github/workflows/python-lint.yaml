@@ -1,0 +1,69 @@
+name: Python-Lint
+
+on: pull_request
+
+jobs:
+  syntax-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install flake8
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Errors check with flake8
+        id: lint_errors_check
+        continue-on-error: false
+        run: |
+          function get_error_qty() {
+            echo $(flake8 . --count --config=.github/.flake8-errors | tail -1)
+          }
+          if [[ $(get_error_qty) > 0 ]]; then
+            echo "ERRORS:" >> ./syntax-check.log
+            echo '```' >> ./syntax-check.log
+            flake8 . --exit-zero --tee --config=.github/.flake8-errors --output-file=./syntax-check.log
+            echo "TOTAL ERRORS: $(get_error_qty)" >> ./syntax-check.log
+            echo '```' >> ./syntax-check.log
+            echo "::set-output name=errors_presence::true"
+          else
+            echo "::set-output name=errors_presence::false"
+          fi
+
+      - name: Warnings with flake8
+        id: lint_warnings_check
+        run: |
+          function get_wrn_qty() {
+            echo $(flake8 . --count --config=.github/.flake8-warnings | tail -1)
+          }
+          if [[ $(get_wrn_qty) > 0 ]]; then
+            echo "WARNINGS:" >> ./syntax-check.log
+            echo '```' >> ./syntax-check.log
+            flake8 . --exit-zero --tee --config=.github/.flake8-warnings --output-file=./syntax-check.log
+            echo "TOTAL WARNINGS: $(get_wrn_qty)" >> ./syntax-check.log
+            echo '```' >> ./syntax-check.log
+            echo "::set-output name=warnings_presence::true"
+          else
+            echo "::set-output name=warnings_presence::false"
+          fi
+
+      #- name: Comment PR
+        #if: ${{steps.lint_errors_check.outputs.errors_presence == 'true' || steps.lint_warnings_check.outputs.warnings_presence == 'true'}}
+        #uses: machine-learning-apps/pr-comment@master
+        #env:
+          #GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        #with:
+          #path: ./syntax-check.log
+
+      - name: Set exit status
+        if: ${{steps.lint_errors_check.outputs.errors_presence == 'true'}}
+        run: |
+          exit 1
