@@ -4,6 +4,4 @@ select =
     F63,
     F7,
     F82
-exclude =
-    conftest.py
 show-source = True
