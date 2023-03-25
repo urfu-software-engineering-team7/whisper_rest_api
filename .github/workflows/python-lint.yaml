@@ -30,7 +30,7 @@ jobs:
           if [[ $(get_error_qty) > 0 ]]; then
             echo "ERRORS:" >> ./syntax-check.log
             echo '```' >> ./syntax-check.log
-            flake8 . --exit-zero --config=.github/.flake8-errors --output-file=./syntax-check.log
+            flake8 . --exit-zero --tee --config=.github/.flake8-errors --output-file=./syntax-check.log
             echo "TOTAL ERRORS: $(get_error_qty)" >> ./syntax-check.log
             echo '```' >> ./syntax-check.log
             echo "::set-output name=errors_presence::true"
@@ -47,7 +47,7 @@ jobs:
           if [[ $(get_wrn_qty) > 0 ]]; then
             echo "WARNINGS:" >> ./syntax-check.log
             echo '```' >> ./syntax-check.log
-            flake8 . --exit-zero --config=.github/.flake8-warnings --output-file=./syntax-check.log
+            flake8 . --exit-zero --tee --config=.github/.flake8-warnings --output-file=./syntax-check.log
             echo "TOTAL WARNINGS: $(get_wrn_qty)" >> ./syntax-check.log
             echo '```' >> ./syntax-check.log
             echo "::set-output name=warnings_presence::true"
