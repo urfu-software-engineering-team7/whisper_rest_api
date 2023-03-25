@@ -4,7 +4,6 @@ on: pull_request
 
 jobs:
   syntax-check:
-    permissions: read-all|write-all
     runs-on: ubuntu-latest
 
     steps:
@@ -56,13 +55,13 @@ jobs:
             echo "::set-output name=warnings_presence::false"
           fi
 
-      - name: Comment PR
-        if: ${{steps.lint_errors_check.outputs.errors_presence == 'true' || steps.lint_warnings_check.outputs.warnings_presence == 'true'}}
-        uses: machine-learning-apps/pr-comment@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          path: ./syntax-check.log
+      #- name: Comment PR
+        #if: ${{steps.lint_errors_check.outputs.errors_presence == 'true' || steps.lint_warnings_check.outputs.warnings_presence == 'true'}}
+        #uses: machine-learning-apps/pr-comment@master
+        #env:
+          #GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        #with:
+          #path: ./syntax-check.log
 
       - name: Set exit status
         if: ${{steps.lint_errors_check.outputs.errors_presence == 'true'}}
