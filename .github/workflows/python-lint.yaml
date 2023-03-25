@@ -19,6 +19,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install flake8
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
       - name: Errors check with flake8
         id: lint_errors_check
         continue-on-error: false
@@ -36,6 +37,7 @@ jobs:
           else
             echo "::set-output name=errors_presence::false"
           fi
+
       - name: Warnings with flake8
         id: lint_warnings_check
         run: |
@@ -52,13 +54,14 @@ jobs:
           else
             echo "::set-output name=warnings_presence::false"
           fi
-      - name: Comment PR
-        if: ${{steps.lint_errors_check.outputs.errors_presence == 'true' || steps.lint_warnings_check.outputs.warnings_presence == 'true'}}
-        uses: machine-learning-apps/pr-comment@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          path: syntax-check.log
+
+      #- name: Comment PR
+        #if: ${{steps.lint_errors_check.outputs.errors_presence == 'true' || steps.lint_warnings_check.outputs.warnings_presence == 'true'}}
+        #uses: machine-learning-apps/pr-comment@master
+        #env:
+          #GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        #with:
+          #path: syntax-check.log
 
       - name: Set exit status
         if: ${{steps.lint_errors_check.outputs.errors_presence == 'true'}}
